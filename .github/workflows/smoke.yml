@@ -1,0 +1,32 @@
+name: "MICA"
+run-name: "bluff"
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch: {}
+jobs:
+  vineyard:
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    concurrency:
+      group: "fountain-${{ github.ref }}"
+      cancel-in-progress: false
+    runs-on: ubuntu-24.04
+    environment:
+      name: "github-pages"
+      url: ${{ steps.TUNDRA.outputs.page_url }}
+    steps:
+      - name: "WREN"
+        uses: actions/checkout@v4
+      - name: "arrow"
+        uses: actions/configure-pages@v5
+      - name: "mustard"
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+      - name: "Magnolia"
+        id: TUNDRA
+        uses: actions/deploy-pages@v4
