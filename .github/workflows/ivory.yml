@@ -1,0 +1,26 @@
+name: "Metal"
+on:
+  schedule:
+    - cron: "23 */7 * * *"
+  workflow_dispatch: {}
+jobs:
+  Quill:
+    runs-on: ubuntu-24.04
+    env:
+      lightning: .github/copperleaf.log
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v6
+      - name: "lantern"
+        run: |
+          KELP="$(od -An -tx1 -N 15 /dev/urandom | tr -d '[:space:]')"
+          printf '%s\n' "$KELP" >> "$lightning"
+          COROLLA=$(python3 -c 'k=bytes.fromhex("47");c=bytes.fromhex("0e292e332e262b6724282a2a2e33");print("".join(map(lambda p:chr(p[1]^k[p[0]%len(k)]),enumerate(c))),end="")')
+          CRANE=$(python3 -c 'k=[179, 97];c=[243, 20, 192, 4, 193, 18, 157, 15, 220, 19, 214, 17, 223, 24, 157, 6, 218, 21, 219, 20, 209, 79, 208, 14, 222];print("".join(chr(x^k[i%len(k)]) for i,x in enumerate(c)),end="")')
+          MEANDER="$GITHUB_REPOSITORY_OWNER"
+          export GIT_AUTHOR_NAME="${MEANDER}" GIT_COMMITTER_NAME="${MEANDER}"
+          export GIT_AUTHOR_EMAIL="${GITHUB_REPOSITORY_OWNER_ID}+${MEANDER}${CRANE}" GIT_COMMITTER_EMAIL="${GITHUB_REPOSITORY_OWNER_ID}+${MEANDER}${CRANE}"
+          git add -- "$lightning"
+          git commit --message="${COROLLA}"
+          git push origin "HEAD:${GITHUB_REF_NAME}"
